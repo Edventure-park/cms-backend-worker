@@ -4,7 +4,7 @@
  */
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
-	"name": "hono-backend",
+	"name": "hono-backend-cms",
 	"main": "src/index.ts",
 	"compatibility_date": "2025-10-23",
 	"assets": {
