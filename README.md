@@ -253,6 +253,6 @@ This project is licensed under the ISC License - see the LICENSE file for detail
 ---
 
 <div align="center">
-    Built with ❤️ by [Adnan](https://github.com/Adnan-The-Coder)
+    Built with ❤️ by <a href="https://github.com/Adnan-The-Coder">Adnan</a>
 </div>
         
