@@ -28,15 +28,14 @@ app.use(
 );
 
 // Rate limiting: example to limit requests to 100 requests per minute
-app.use(
-  rateLimiter({
+app.all('*', async (c, next) => {
+  await rateLimiter({
     windowMs: 15 * 60 * 1000, // 15 minutes window
     limit: 100, // Limit each IP to 100 requests per 15 minutes
     standardHeaders: "draft-6", // `RateLimit-*` headers for draft-6
     keyGenerator: () => "global-key", // Fallback key for all requests (use a fixed key)
-    // store: ... , // Optionally specify a store like Redis or MemoryStore for persistence
-  })
-);
+  })(c, next); // Apply rate limiter middleware in the handler context
+});
 
 // Security Headers Middleware
 app.use('*', (c, next) => {
