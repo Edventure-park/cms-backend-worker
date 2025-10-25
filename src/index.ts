@@ -2,6 +2,7 @@ import { Hono } from "hono";
 import { cors } from "hono/cors";
 import mailRoute from "./routes/mail";
 import {rateLimiter}  from "hono-rate-limiter";
+import blogRoutes from "./routes/blog";
 
 // Initialize app
 const app = new Hono();
@@ -51,5 +52,6 @@ app.use('*', (c, next) => {
 
 // Mount routes
 app.route('/mail', mailRoute);
+app.route('/blog',blogRoutes);
 
 export default app;
