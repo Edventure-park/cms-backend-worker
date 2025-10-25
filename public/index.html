@@ -1,19 +1,419 @@
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Hello, World!</title>
-	</head>
-	<body>
-		<h1 id="heading"></h1>
-		<script>
-			fetch('/message')
-				.then((resp) => resp.text())
-				.then((text) => {
-					const h1 = document.getElementById('heading');
-					h1.textContent = text;
-				});
-		</script>
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EVP CMS - Backend Worker API Documentation</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+        color: #e0e0e0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+        flex: 1;
+      }
+
+      header {
+        background: linear-gradient(135deg, #242424 0%, #1a1a1a 100%);
+        padding: 40px 0;
+        border-bottom: 3px solid #F38020;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      }
+
+      header h1 {
+        font-size: 2.5rem;
+        color: #F38020;
+        margin-bottom: 15px;
+        text-align: center;
+        font-weight: 700;
+        letter-spacing: 1px;
+      }
+
+      .badges {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-top: 15px;
+      }
+
+      .badge {
+        display: inline-block;
+        padding: 8px 16px;
+        background: linear-gradient(135deg, #F38020 0%, #d66a10 100%);
+        color: #fff;
+        font-size: 13px;
+        font-weight: 600;
+        border-radius: 20px;
+        box-shadow: 0 2px 4px rgba(243, 128, 32, 0.3);
+        transition: transform 0.2s;
+      }
+
+      .badge:hover {
+        transform: translateY(-2px);
+      }
+
+      main {
+        flex: 1;
+        padding: 40px 0;
+      }
+
+      section {
+        background-color: #242424;
+        margin-bottom: 30px;
+        padding: 35px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        border-left: 4px solid #F38020;
+      }
+
+      h2 {
+        font-size: 2rem;
+        color: #F38020;
+        margin-bottom: 20px;
+        font-weight: 600;
+        border-bottom: 2px solid #333;
+        padding-bottom: 12px;
+      }
+
+      .hero {
+        text-align: center;
+        padding: 20px 0;
+      }
+
+      .hero img {
+        max-width: 180px;
+        margin: 20px 0;
+        filter: drop-shadow(0 4px 8px rgba(243, 128, 32, 0.4));
+      }
+
+      .hero p {
+        font-size: 1.3rem;
+        color: #F38020;
+        font-weight: 600;
+        margin-top: 15px;
+      }
+
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      .feature-card {
+        background: linear-gradient(135deg, #2a2a2a 0%, #1f1f1f 100%);
+        padding: 20px;
+        border-radius: 8px;
+        border: 1px solid #333;
+        transition: all 0.3s;
+      }
+
+      .feature-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 6px 16px rgba(243, 128, 32, 0.2);
+        border-color: #F38020;
+      }
+
+      .feature-card strong {
+        color: #F38020;
+        font-size: 1.1rem;
+        display: block;
+        margin-bottom: 8px;
+      }
+
+      .security-list {
+        list-style: none;
+        margin-top: 20px;
+      }
+
+      .security-list li {
+        background: #2a2a2a;
+        padding: 15px;
+        margin-bottom: 12px;
+        border-radius: 6px;
+        border-left: 3px solid #F38020;
+        transition: all 0.3s;
+      }
+
+      .security-list li:hover {
+        background: #2f2f2f;
+        transform: translateX(5px);
+      }
+
+      .security-list strong {
+        color: #F38020;
+      }
+
+      .status-badge {
+        display: inline-block;
+        background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+        color: white;
+        padding: 6px 14px;
+        border-radius: 15px;
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 20px;
+      }
+
+      .table-wrapper {
+        overflow-x: auto;
+        margin-top: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #2a2a2a;
+      }
+
+      th {
+        background: linear-gradient(135deg, #333 0%, #2a2a2a 100%);
+        color: #F38020;
+        padding: 16px;
+        text-align: left;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 13px;
+        letter-spacing: 0.5px;
+      }
+
+      td {
+        padding: 14px 16px;
+        border-bottom: 1px solid #333;
+        color: #d0d0d0;
+      }
+
+      tr:hover {
+        background-color: #2f2f2f;
+      }
+
+      .method-badge {
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+      }
+
+      .method-post {
+        background-color: #4CAF50;
+        color: white;
+      }
+
+      .method-get {
+        background-color: #2196F3;
+        color: white;
+      }
+
+      .route-path {
+        font-family: 'Courier New', monospace;
+        color: #F38020;
+        font-weight: 600;
+      }
+
+      footer {
+        background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);
+        padding: 30px 0;
+        text-align: center;
+        border-top: 3px solid #F38020;
+        margin-top: auto;
+        box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.3);
+      }
+
+      footer p {
+        color: #a0a0a0;
+        font-size: 15px;
+      }
+
+      footer a {
+        color: #F38020;
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.3s;
+      }
+
+      footer a:hover {
+        color: #ff9940;
+        text-decoration: underline;
+      }
+
+      @media (max-width: 768px) {
+        header h1 {
+          font-size: 2rem;
+        }
+
+        h2 {
+          font-size: 1.6rem;
+        }
+
+        section {
+          padding: 25px;
+        }
+
+        .features-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <h1>EVP CMS Backend Worker API</h1>
+        <div class="badges">
+          <span class="badge">Under Development</span>
+          <span class="badge">TypeScript 5.9.2</span>
+          <span class="badge">Cloudflare Workers 4.0</span>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <div class="container">
+        <section class="hero">
+          <h2>Overview</h2>
+          <p style="color: #d0d0d0; font-size: 1.1rem; max-width: 900px; margin: 20px auto;">
+            The EVP CMS Backend Worker is a lightweight, serverless backend service built on Cloudflare Workers — designed to handle dynamic data operations, API requests, and background tasks for the EVP CMS ecosystem. This API powers the entire <strong style="color: #F38020;">EVP-CMS</strong> platform.
+          </p>
+          <img src="./logo.png" alt="EVP Logo" />
+          <p>A Modern, Scalable Backend Worker Powering the EVP-CMS</p>
+        </section>
+
+        <section>
+          <h2>API Features</h2>
+          <div class="features-grid">
+            <div class="feature-card">
+              <strong>Edge Compute</strong>
+              High-performance, low-latency responses powered by Cloudflare's global network.
+            </div>
+            <div class="feature-card">
+              <strong>CI/CD Pipeline Support</strong>
+              Automated deployment with GitHub Actions for seamless integration.
+            </div>
+            <div class="feature-card">
+              <strong>Security Features</strong>
+              Built-in protections against common vulnerabilities and attack vectors.
+            </div>
+            <div class="feature-card">
+              <strong>Low Latency API</strong>
+              Optimized for quick response times and horizontal scalability.
+            </div>
+            <div class="feature-card">
+              <strong>TypeScript-First</strong>
+              Ensures maintainable, type-safe, and reliable codebase.
+            </div>
+            <div class="feature-card">
+              <strong>Drizzle ORM</strong>
+              Modern, lightweight ORM with migration support for efficient data management.
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2>Security Features</h2>
+          <span class="status-badge">In Development</span>
+          <ul class="security-list">
+            <li>
+              <strong>HTTP Security Headers:</strong> Comprehensive security headers including Content Security Policy, Strict-Transport-Security (HSTS), X-Frame-Options, and X-Content-Type-Options to ensure application security.
+            </li>
+            <li>
+              <strong>HTTPS Enforcement:</strong> HTTPS enforced in production environments with HSTS headers for secure, encrypted connections.
+            </li>
+            <li>
+              <strong>CORS Configuration:</strong> Strict cross-origin resource sharing policy allowing only trusted origins (localhost:3000, blogs.edventurepark.com).
+            </li>
+            <li>
+              <strong>Rate Limiting:</strong> Intelligent API rate limiting to prevent abuse and protect sensitive routes like /mail endpoints.
+            </li>
+            <li>
+              <strong>Helmet-like Middleware:</strong> Custom security middleware adding multiple layers of protection through HTTP headers.
+            </li>
+            <li>
+              <strong>Session Management & CSRF Protection:</strong> Secure session handling with HttpOnly, SameSite=Strict cookies and anti-CSRF token validation.
+            </li>
+            <li>
+              <strong>Logging & Monitoring:</strong> Comprehensive logging and real-time monitoring to detect and respond to malicious activity.
+            </li>
+            <li>
+              <strong>Content-Type Validation:</strong> Strict validation of incoming content types and file sizes to prevent malicious uploads and injection attacks.
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>API Routes</h2>
+          <p style="margin-bottom: 20px;">Below is a comprehensive list of available API endpoints, categorized by their HTTP methods and functionality:</p>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Endpoint</th>
+                  <th>Method</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="route-path">/mail/send-mail-on-server-1</td>
+                  <td><span class="method-badge method-post">POST</span></td>
+                  <td>Send an email via Server 1 with specified parameters.</td>
+                </tr>
+                <tr>
+                  <td class="route-path">/mail/get-all-sent</td>
+                  <td><span class="method-badge method-get">GET</span></td>
+                  <td>Retrieve a list of all sent emails from the system.</td>
+                </tr>
+                <tr>
+                  <td class="route-path">/user/create</td>
+                  <td><span class="method-badge method-post">POST</span></td>
+                  <td>Create a new user account with provided credentials.</td>
+                </tr>
+                <tr>
+                  <td class="route-path">/user/get-all</td>
+                  <td><span class="method-badge method-get">GET</span></td>
+                  <td>Retrieve a comprehensive list of all registered users.</td>
+                </tr>
+                <tr>
+                  <td class="route-path">/auth/login</td>
+                  <td><span class="method-badge method-post">POST</span></td>
+                  <td>Authenticate user credentials and establish a session.</td>
+                </tr>
+                <tr>
+                  <td class="route-path">/auth/logout</td>
+                  <td><span class="method-badge method-post">POST</span></td>
+                  <td>Terminate the current user session and clear credentials.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer>
+      <div class="container">
+        <p>Built with ❤️ by <a href="https://github.com/Adnan-The-Coder" target="_blank" rel="noopener noreferrer">Adnan</a></p>
+        <p style="margin-top: 10px; font-size: 13px; color: #707070;">© 2025 EVP CMS. All rights reserved.</p>
+      </div>
+    </footer>
+  </body>
 </html>
