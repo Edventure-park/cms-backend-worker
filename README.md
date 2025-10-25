@@ -245,10 +245,59 @@ feat: add user authentication to login route
 
 ---
 
-
 ## 📄 License
 
 This project is licensed under the ISC License - see the LICENSE file for details.
+
+
+Here's a short, concise version of the security section in markdown format:
+
+## Security (Status Working on it !)
+
+### 1. HTTP Security Headers
+- **Content Security Policy (CSP)**: Prevents XSS attacks by restricting content sources.
+- **Strict-Transport-Security (HSTS)**: Enforces HTTPS for all future requests.
+- **X-Content-Type-Options**: Prevents MIME sniffing.
+- **X-Frame-Options**: Prevents clickjacking.
+- **X-XSS-Protection**: Blocks some XSS attacks.
+- **Referrer-Policy**: Controls referrer data sent with requests.
+
+### 2. Use of HTTPS
+- HTTPS is enforced in production using HSTS. Ensure your server is configured with SSL/TLS.
+
+### 3. CORS Configuration
+- Allows only trusted origins (`http://localhost:3000`, `https://blogs.edventurepark.com`) for cross-origin requests.
+- Restricts allowed HTTP methods (GET, POST, PATCH).
+
+### 4. Rate Limiting
+- Limits requests to sensitive routes (e.g., `/mail`) to 100 requests per minute to prevent abuse.
+
+### 5. Helmet-like Middleware
+- Custom middleware sets security headers to protect against XSS, clickjacking, and other attacks.
+
+```typescript
+app.use('*', (c, next) => {
+  c.header('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
+  c.header('Content-Security-Policy', "default-src 'self'; script-src 'self'; object-src 'none';");
+  c.header('X-Content-Type-Options', 'nosniff');
+  c.header('X-Frame-Options', 'DENY');
+  c.header('X-XSS-Protection', '1; mode=block');
+  c.header('Referrer-Policy', 'no-referrer-when-downgrade');
+  next();
+});
+````
+
+### 6. Session Management & CSRF Protection
+
+* Use `HttpOnly`, `SameSite=Strict` cookies and anti-CSRF tokens to prevent attacks.
+
+### 7. Logging & Monitoring
+
+* Implement logging and monitoring for detecting malicious activity in production.
+
+### 8. Content-Type Validation
+
+* Validate incoming content types and file sizes to prevent malicious uploads.
 
 ---
 

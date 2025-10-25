@@ -10,13 +10,15 @@
 		"migrate": "node scripts/execute-d1.mjs"
 	},
 	"dependencies": {
-		"hono": "^4.10.2",
 		"dotenv": "^17.2.0",
 		"drizzle-kit": "^0.31.4",
-		"drizzle-orm": "^0.44.2"
+		"drizzle-orm": "^0.44.2",
+		"hono": "^4.10.2",
+		"hono-rate-limiter": "^0.4.2",
+		"resend": "^6.2.2"
 	},
 	"devDependencies": {
-		"wrangler": "^4.45.0",
-		"@types/node": "^24.0.13"
+		"@types/node": "^24.0.13",
+		"wrangler": "^4.45.0"
 	}
 }
