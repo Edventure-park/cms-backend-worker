@@ -18,6 +18,8 @@ CREATE TABLE `blogs` (
 	`seo_description` text,
 	`created_at` text NOT NULL,
 	`updated_at` text NOT NULL,
+	`estimated_read_time` integer,
+	`scheduled_at` text,
 	`comments` integer DEFAULT 0 NOT NULL,
 	`upvotes` integer DEFAULT 0 NOT NULL,
 	`downvotes` integer DEFAULT 0 NOT NULL,
@@ -29,12 +31,8 @@ CREATE TABLE `blogs` (
 	`related_blogs` text,
 	`status` text DEFAULT 'draft' NOT NULL,
 	`external_url` text,
-	`language` text DEFAULT 'en' NOT NULL,
 	`featured_image_width` integer,
 	`featured_image_height` integer,
-	`author_twitter` text,
-	`author_linkedin` text,
-	`translated_blogs` text,
 	`is_approved` integer DEFAULT false NOT NULL
 );
 --> statement-breakpoint

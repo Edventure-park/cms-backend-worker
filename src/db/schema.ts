@@ -10,7 +10,7 @@ export const blogs = sqliteTable("blogs", {
   title: text("title").notNull(),
   slug: text("slug").notNull().unique(),
 
-  excerpt: text("excerpt"),
+  excerpt: text("excerpt"), // short intro or summary of the blog post
   content: text("content").notNull(),
 
   category: text("category").notNull(),
@@ -33,6 +33,9 @@ export const blogs = sqliteTable("blogs", {
   createdAt: text("created_at").notNull(),
   updatedAt: text("updated_at").notNull(),
 
+  estimatedReadTime: integer("estimated_read_time"),  
+  scheduledAt: text("scheduled_at"),
+
   // New fields
   comments: integer("comments").default(0).notNull(),
   upvotes: integer("upvotes").default(0).notNull(),
@@ -45,11 +48,7 @@ export const blogs = sqliteTable("blogs", {
   relatedBlogs: text("related_blogs"),
   status: text("status").default("draft").notNull(),
   externalUrl: text("external_url"),
-  language: text("language").default("en").notNull(),
   featuredImageWidth: integer("featured_image_width"),
   featuredImageHeight: integer("featured_image_height"),
-  authorTwitter: text("author_twitter"),
-  authorLinkedIn: text("author_linkedin"),
-  translatedBlogs: text("translated_blogs"),
   isApproved: integer("is_approved", { mode: "boolean" }).default(false).notNull(),
 });
