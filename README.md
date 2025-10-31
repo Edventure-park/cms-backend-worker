@@ -301,6 +301,61 @@ app.use('*', (c, next) => {
 
 ---
 
+### Mail Load balancer architecture
+```
+                     ┌─────────────────────────────────────┐
+                     │            Admin Panel              │
+                     │ (Triggers bulk emails / campaigns)  │
+                     └─────────────────────────────────────┘
+                                        │
+                                        ▼
+                         ┌────────────────────────┐
+                         │       HonoJS API       │
+                         │ (Worker-based router)  │
+                         └────────────────────────┘
+                                        │
+                                        ▼
+                   ┌─────────────────────────────────────────────┐
+                   │       Load Balancer / Dispatch Logic        │
+                   │ - Uses Drizzle+D1 to fetch server metadata  │
+                   │ - Checks Redis token buckets for limits     │
+                   │ - Chooses next mail-server-N                │
+                   └─────────────────────────────────────────────┘
+                                        │
+              ┌─────────────────────────────────────────────────────────────────┐
+              │                                │                                │
+              ▼                                ▼                                ▼
+   ┌─────────────────────┐         ┌─────────────────────┐         ┌─────────────────────┐
+   │   mail-server-1     │         │   mail-server-2     │  ...    │   mail-server-N     │
+   │ (Quota: daily+month)│         │ (Quota: daily+month)│         │ (Quota: daily+month)│
+   └─────────────────────┘         └─────────────────────┘         └─────────────────────┘
+              │                                │                                │
+              ▼                                ▼                                ▼
+     ┌───────────────────────┐      ┌───────────────────────┐      ┌───────────────────────┐
+     │   Upstash Redis       │◀──▶ │ Rate Limit & Queues   │◀───▶│  Backoff Retry Stream │
+     │  (Redis + Streams)    │      └───────────────────────┘      └───────────────────────┘
+     └───────────────────────┘
+              │
+              ▼
+   ┌───────────────────────────┐
+   │        D1 + Drizzle       │
+   │  - Mail server configs    │
+   │  - Sent counters, logs    │
+   │  - Quota reset schedule   │
+   └───────────────────────────┘
+              │
+              ▼
+   ┌───────────────────────────┐
+   │     Queue Worker / CRON   │
+   │ - Runs periodically       │
+   │ - Reads from Redis queue  │
+   │ - Applies exponential     │
+   │   backoff + jitter        │
+   │ - Retries queued mails    │
+   └───────────────────────────┘
+
+```
+
 <div align="center">
     Built with ❤️ by <a href="https://github.com/Adnan-The-Coder">Adnan</a>
 </div>

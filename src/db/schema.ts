@@ -52,3 +52,5 @@ export const blogs = sqliteTable("blogs", {
   featuredImageHeight: integer("featured_image_height"),
   isApproved: integer("is_approved", { mode: "boolean" }).default(false).notNull(),
 });
+
+export * from "./mail-schemas";
