@@ -33,6 +33,14 @@ const generateSlug = (title: string): string =>
     .replace(/^-+|-+$/g, '')
     .slice(0, 200);
 
+const normalizeCategorySlug = (category: string): string =>
+  category
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-+|-+$/g, '');
+
 const parseToJson = (data: unknown, fieldName: string): string | null => {
   if (!data) return null;
 
@@ -121,6 +129,16 @@ export const createBlogPost = async (c: Context) => {
 
     if (body.excerpt && body.excerpt.trim().length > 1000) {
       return c.json({ success: false, message: 'Excerpt max 1000 characters', error: 'EXCERPT_TOO_LONG' }, 400);
+    }
+
+    // Normalize category to slug format
+    const normalizedCategory = normalizeCategorySlug(body.category);
+    if (!normalizedCategory) {
+      return c.json({ 
+        success: false, 
+        message: 'Invalid category format', 
+        error: 'INVALID_CATEGORY' 
+      }, 400);
     }
 
     // Slug generation/validation
@@ -225,14 +243,14 @@ export const createBlogPost = async (c: Context) => {
     const blogId = `BLOG-${nanoid()}`;
     const now = new Date().toISOString();
 
-    // Prepare blog data
+    // Prepare blog data with normalized category
     const blogData = {
       blogId,
       title: body.title.trim(),
       slug: finalSlug,
       content: body.content.trim(),
       excerpt: body.excerpt?.trim() || null,
-      category: body.category.trim(),
+      category: normalizedCategory, // Store as slug-friendly format
       tags: parsedTags,
       authorName: body.authorName.trim(),
       authorId: body.authorId?.trim() || null,
@@ -283,6 +301,7 @@ export const createBlogPost = async (c: Context) => {
         blogId,
         slug: finalSlug,
         title: body.title.trim(),
+        category: normalizedCategory,
         status,
         isPublished: body.isPublished ?? false,
         estimatedReadTime: blogData.estimatedReadTime,
