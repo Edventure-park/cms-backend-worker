@@ -27,13 +27,9 @@ CREATE TABLE `blogs` (
 	`shares` integer DEFAULT 0 NOT NULL,
 	`author_bio` text,
 	`author_profile_image` text,
-	`post_type` text DEFAULT 'regular' NOT NULL,
 	`related_blogs` text,
 	`status` text DEFAULT 'draft' NOT NULL,
-	`external_url` text,
-	`featured_image_width` integer,
-	`featured_image_height` integer,
-	`is_approved` integer DEFAULT false NOT NULL
+	`external_url` text
 );
 --> statement-breakpoint
 CREATE UNIQUE INDEX `blogs_blog_id_unique` ON `blogs` (`blog_id`);--> statement-breakpoint

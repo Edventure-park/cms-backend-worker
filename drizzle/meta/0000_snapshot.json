@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "47b23878-b4a7-460d-8b43-a47caf65b410",
+  "id": "2518c66b-9c47-4682-a1a0-2a8399331f66",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "blogs": {
@@ -210,14 +210,6 @@
           "notNull": false,
           "autoincrement": false
         },
-        "post_type": {
-          "name": "post_type",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": "'regular'"
-        },
         "related_blogs": {
           "name": "related_blogs",
           "type": "text",
@@ -239,28 +231,6 @@
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
-        },
-        "featured_image_width": {
-          "name": "featured_image_width",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "featured_image_height": {
-          "name": "featured_image_height",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "is_approved": {
-          "name": "is_approved",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": false
         }
       },
       "indexes": {

@@ -14,7 +14,9 @@ app.use(
     origin: (origin) => {
       const allowedOrigins = [
         "http://localhost:3000",
-        "https://blogs.edventurepark.com"
+        "http://localhost:3001",
+        "https://blogs.edventurepark.com",
+        "https://edventurepark.com"
       ]
       // Allow requests with no origin (like curl or Postman)
       if (!origin) return "*";

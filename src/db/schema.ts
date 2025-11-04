@@ -44,13 +44,7 @@ export const blogs = sqliteTable("blogs", {
   shares: integer("shares").default(0).notNull(),
   authorBio: text("author_bio"),
   authorProfileImage: text("author_profile_image"),
-  postType: text("post_type").default("regular").notNull(),
   relatedBlogs: text("related_blogs"),
   status: text("status").default("draft").notNull(),
   externalUrl: text("external_url"),
-  featuredImageWidth: integer("featured_image_width"),
-  featuredImageHeight: integer("featured_image_height"),
-  isApproved: integer("is_approved", { mode: "boolean" }).default(false).notNull(),
 });
-
-export * from "./mail-schemas";
