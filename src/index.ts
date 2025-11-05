@@ -16,7 +16,8 @@ app.use(
         "http://localhost:3000",
         "http://localhost:3001",
         "https://blogs.edventurepark.com",
-        "https://edventurepark.com"
+        "https://edventurepark.com",
+        "https://cms-portal.edventure-park.workers.dev"
       ]
       // Allow requests with no origin (like curl or Postman)
       if (!origin) return "*";

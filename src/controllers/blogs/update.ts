@@ -247,20 +247,6 @@ export const updateBlogById = async (c: Context) => {
       updates.featuredImageAltText = body.featuredImageAltText?.trim() || null;
     }
 
-    if (body.featuredImageWidth !== undefined) {
-      if (body.featuredImageWidth && (body.featuredImageWidth < 1 || body.featuredImageWidth > 10000)) {
-        return c.json({ success: false, message: 'Image width: 1-10000px', error: 'INVALID_IMAGE_WIDTH' }, 400);
-      }
-      updates.featuredImageWidth = body.featuredImageWidth || null;
-    }
-
-    if (body.featuredImageHeight !== undefined) {
-      if (body.featuredImageHeight && (body.featuredImageHeight < 1 || body.featuredImageHeight > 10000)) {
-        return c.json({ success: false, message: 'Image height: 1-10000px', error: 'INVALID_IMAGE_HEIGHT' }, 400);
-      }
-      updates.featuredImageHeight = body.featuredImageHeight || null;
-    }
-
     // Boolean fields
     if (body.isFeatured !== undefined) {
       updates.isFeatured = Boolean(body.isFeatured);
