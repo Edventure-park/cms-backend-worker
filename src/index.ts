@@ -17,6 +17,8 @@ app.use(
         "http://localhost:3001",
         "https://blogs.edventurepark.com",
         "https://edventurepark.com",
+        "https://main-website-76w.pages.dev",
+        "https://main-website-one-opal.vercel.app",
         "https://cms-portal.edventure-park.workers.dev"
       ]
       // Allow requests with no origin (like curl or Postman)
