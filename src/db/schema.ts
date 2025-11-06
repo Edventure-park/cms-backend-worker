@@ -48,3 +48,36 @@ export const blogs = sqliteTable("blogs", {
   status: text("status").default("draft").notNull(),
   externalUrl: text("external_url"),
 });
+
+export const mailServers = sqliteTable("mail_servers", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  
+  // Server identification
+  serverId: text("server_id").notNull().unique(), // e.g., "MAIL-SERVER-001"
+  name: text("name").notNull(), // e.g., "mail-server-1"
+  hostname: text("hostname").notNull(), // 'resend', 'mailtrap'
+  
+  // Limits and usage
+  dailyLimit: integer("daily_limit").notNull(),
+  monthlyLimit: integer("monthly_limit").notNull(),
+  dailySent: integer("daily_sent").default(0).notNull(), // sent in a day
+  monthlySent: integer("monthly_sent").default(0).notNull(), // sent in a month
+  
+  // Reset tracking
+  lastDailyReset: text("last_daily_reset").notNull(),
+  lastMonthlyReset: text("last_monthly_reset").notNull(),
+  
+  // Server status
+  status: text("status").default("active").notNull(), // active, cooldown, disabled, maintenance
+  priority: integer("priority").default(0).notNull(), // Higher priority servers used first
+  
+  // Health tracking
+  consecutiveFailures: integer("consecutive_failures").default(0).notNull(),
+  
+  // Metadata
+  createdAt: text("created_at").notNull(),
+  updatedAt: text("updated_at").notNull(),
+}, (table) => ({
+  statusIdx: index("idx_mail_servers_status").on(table.status),
+  priorityIdx: index("idx_mail_servers_priority").on(table.priority),
+}));

@@ -4,7 +4,7 @@
 import { Context } from 'hono'
 import { Resend } from 'resend'
 
-const RESEND_API_KEY = 're_F9haq6uV_skfhiosklaKc7KAqtDPjJ6az56cHto6q'
+const RESEND_API_KEY = 're_F9haq6uV_skfhiosk31aKc7KAskaa31J6az56cHto6q'
 
 // Initialize Resend client
 const resend = new Resend(RESEND_API_KEY)

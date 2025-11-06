@@ -5,7 +5,7 @@
 import { Context } from 'hono';
 
 // Mailtrap API Token (store securely in environment variable in production)
-const MAILTRAP_TOKEN = 'kbsdkabflaisanlfnfkfbesb3';
+const MAILTRAP_TOKEN = 'abSad1sdkabflanlfkfAs21b3';
 
 // Optional: Template UUID from Mailtrap (for future use)
 const TEMPLATE_UUID = '34a0f520-068f-4bob-9f82-dcdceecbef71a';
